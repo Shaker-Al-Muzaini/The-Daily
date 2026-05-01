@@ -26,6 +26,7 @@ function cn(...inputs: ClassValue[]) {
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { theme, toggleTheme, locale, setLocale } = useAppStore();
+    const { t } = useTranslation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const { auth } = usePage().props as any;
@@ -47,9 +48,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }, [theme, locale]);
 
     const menuItems = [
-        { label: 'Dashboard', icon: LayoutDashboard, href: route('dashboard') },
-        { label: 'Users', icon: Users, href: '#' },
-        { label: 'Settings', icon: Settings, href: '#' },
+        { label: t('dash_dashboard'), icon: LayoutDashboard, href: route('dashboard') },
+        { label: t('dash_users'), icon: Users, href: '#' },
+        { label: t('dash_settings'), icon: Settings, href: '#' },
     ];
 
     return (
@@ -65,10 +66,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 locale === 'ar' ? "right-0" : "left-0"
             )}>
                 <div className="h-20 flex items-center justify-between px-6">
-                    <Link href="/" className={cn("font-bold text-2xl bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent", !isSidebarOpen && "hidden")}>
-                        FINFLOW
+                    <Link href="/" className={cn("font-extrabold text-2xl tracking-tighter text-[#1a1f36] dark:text-white select-none", !isSidebarOpen && "hidden")}>
+                        {locale === 'ar' ? 'اليوم' : 'the daily'}
                     </Link>
-                    {!isSidebarOpen && <span className="text-blue-600 font-bold text-2xl">F</span>}
+                    {!isSidebarOpen && <span className="text-[#C5A059] font-bold text-2xl">D</span>}
                     <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5">
                         {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                     </button>
@@ -81,12 +82,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             href={item.href}
                             className={cn(
                                 "flex items-center gap-4 px-4 py-3 rounded-xl transition-all group",
-                                "hover:bg-blue-600 hover:text-white",
+                                "hover:bg-[#C5A059] hover:text-black",
                                 !isSidebarOpen && "justify-center px-0"
                             )}
                         >
                             <item.icon className="w-5 h-5 shrink-0" />
-                            {isSidebarOpen && <span className="font-medium">{item.label}</span>}
+                            {isSidebarOpen && <span className="font-bold">{item.label}</span>}
                         </Link>
                     ))}
                 </nav>
@@ -97,10 +98,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             "flex items-center gap-4 w-full px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all",
                             !isSidebarOpen && "justify-center px-0"
                         )}
-                        onClick={() => {/* logout logic */}}
+                        onClick={() => router.post(route('logout'))}
                     >
                         <LogOut className="w-5 h-5 shrink-0" />
-                        {isSidebarOpen && <span className="font-medium">Logout</span>}
+                        {isSidebarOpen && <span className="font-bold">{t('dash_logout')}</span>}
                     </button>
                 </div>
             </aside>
@@ -118,11 +119,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <div className="h-full px-8 flex items-center justify-between">
                         <div className="flex items-center gap-4 flex-1">
                             <div className="relative max-w-md w-full">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Search className={`absolute ${locale === 'ar' ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400`} />
                                 <input 
                                     type="text" 
-                                    placeholder="Search everything..." 
-                                    className="w-full bg-gray-100 dark:bg-white/5 border-none rounded-xl py-2 pl-10 pr-4 focus:ring-2 focus:ring-blue-600 transition-all"
+                                    placeholder={t('dash_search')}
+                                    className={`w-full bg-gray-100 dark:bg-white/5 border-none rounded-xl py-2 ${locale === 'ar' ? 'pr-10 pl-4' : 'pl-10 pr-4'} focus:ring-2 focus:ring-[#C5A059] transition-all`}
                                 />
                             </div>
                         </div>
@@ -144,12 +145,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                                     className="flex items-center gap-3 p-1 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
                                 >
-                                    <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold">
+                                    <div className="w-10 h-10 rounded-xl bg-[#C5A059] flex items-center justify-center text-black font-bold">
                                         {auth.user.name.charAt(0)}
                                     </div>
                                     <div className="hidden md:block text-start">
                                         <p className="text-sm font-bold leading-none">{auth.user.name}</p>
-                                        <p className="text-xs text-gray-500 mt-1">Administrator</p>
+                                        <p className="text-xs text-gray-500 mt-1">{t('dash_admin')}</p>
                                     </div>
                                     <ChevronDown className={cn("w-4 h-4 transition-transform", isProfileOpen && "rotate-180")} />
                                 </button>
@@ -161,10 +162,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                             <p className="text-xs text-gray-500">{auth.user.email}</p>
                                         </div>
                                         <Link href="#" className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-white/5">
-                                            <User className="w-4 h-4" /> Profile
+                                            <User className="w-4 h-4" /> {t('dash_profile')}
                                         </Link>
                                         <Link href="#" className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-white/5">
-                                            <Settings className="w-4 h-4" /> Settings
+                                            <Settings className="w-4 h-4" /> {t('dash_settings')}
                                         </Link>
                                     </div>
                                 )}
