@@ -1,19 +1,16 @@
 import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { 
-    ChevronRight, 
-    ArrowRight, 
-    Globe, 
-    BookOpen,
-    PenTool,
-    MessageSquare,
-    ArrowUpRight,
-    Search
+import {
+    Shield,
+    Zap,
+    BarChart3,
+    TrendingUp,
+    MessageCircle,
+    Globe
 } from 'lucide-react';
 import Navbar from '@/Components/Landing/Navbar';
 import { useAppStore } from '@/Stores/useAppStore';
 import { useEffect } from 'react';
-import Hero from '@/Components/Landing/Hero';
 import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Welcome({ auth }: { auth: any }) {
@@ -28,174 +25,209 @@ export default function Welcome({ auth }: { auth: any }) {
         root.setAttribute('lang', locale);
     }, [theme, locale]);
 
-    const categories = [
-        { title: t('cat_tech_title'), desc: t('cat_tech_desc'), icon: BookOpen },
-        { title: t('cat_biz_title'), desc: t('cat_biz_desc'), icon: BookOpen },
-        { title: t('cat_life_title'), desc: t('cat_life_desc'), icon: MessageSquare },
-        { title: t('cat_sci_title'), desc: t('cat_sci_desc'), icon: Globe },
+    const features = [
+        {
+            icon: Shield,
+            title: 'Secure',
+            desc: 'Enterprise-grade security',
+        },
+        {
+            icon: Zap,
+            title: 'Fast',
+            desc: 'Built for speed and performance',
+        },
+        {
+            icon: BarChart3,
+            title: 'Scalable',
+            desc: 'Grow without limitations',
+        },
     ];
 
-    const insights = [
-        {
-            title: "The Future of AI in Journalism",
-            desc: "How generative models are changing the way we consume news and verify facts.",
-            category: "Technology",
-            date: "May 12, 2026",
-            image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
-        },
-        {
-            title: "Sustainable Living in Mega Cities",
-            desc: "New architectural trends focused on vertical farming and renewable energy integration.",
-            category: "Lifestyle",
-            date: "May 10, 2026",
-            image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&q=80&w=800",
-        },
-        {
-            title: "The Decentralized Economy",
-            desc: "Understanding the shift towards peer-to-peer financial systems and digital assets.",
-            category: "Business",
-            date: "May 08, 2026",
-            image: "https://images.unsplash.com/photo-1518186239751-6467fd502f76?auto=format&fit=crop&q=80&w=800",
-        }
+    const portfolioImages = [
+        { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=400&h=300', color: 'yellow' },
+        { src: 'https://images.unsplash.com/photo-1486406146926-c62733eee317?auto=format&fit=crop&q=80&w=400&h=300', color: 'blue' },
+        { src: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=400&h=300', color: 'gray' },
+        { src: 'https://images.unsplash.com/photo-1516534775068-bb57100d4f32?auto=format&fit=crop&q=80&w=400&h=300', color: 'gray' },
+        { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=400&h=300', color: 'gray' },
+        { src: 'https://images.unsplash.com/photo-1486406146926-c627033eee317?auto=format&fit=crop&q=80&w=400&h=300', color: 'gray' },
+    ];
+
+    const trustedBy = [
+        { name: 'Google', logo: '🔍' },
+        { name: 'Microsoft', logo: '◼' },
+        { name: 'Airbnb', logo: 'Ⓐ' },
+        { name: 'Amazon', logo: '◀' },
+        { name: 'HubSpot', logo: 'Ⓗ' },
+        { name: 'Slack', logo: '▪' },
+        { name: 'Spotify', logo: '◉' },
     ];
 
     return (
-        <div className={`min-h-screen selection:bg-blue-500/30 transition-colors duration-500 ${theme === 'dark' ? 'bg-[#0A0C10] text-white' : 'bg-white text-[#1a1f36]'}`}>
-            <Head title="The Daily | Premium Digital Journalism" />
-            
+        <div className={`min-h-screen selection:bg-yellow-500/30 transition-colors duration-500 ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-white'}`}>
+            <Head title="The Daily | All-in-one digital platform" />
+
             <Navbar auth={auth} />
 
             <main>
-                <Hero />
+                {/* Hero Section */}
+                <section className="pt-32 pb-20 px-6 bg-black">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                            {/* Left Content */}
+                            <motion.div
+                                initial={{ opacity: 0, x: locale === 'ar' ? 50 : -50 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                {/* Badge */}
+                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-500/20 border border-yellow-500/50 mb-8">
+                                    <span className="text-yellow-500">⭐</span>
+                                    <span className="text-yellow-400 text-sm font-semibold">All-in-one digital platform</span>
+                                </div>
 
-                {/* Latest Insights Section */}
-                <section className="py-24 border-t border-gray-500/5">
-                    <div className="max-w-7xl mx-auto px-6">
-                        <div className="flex items-center justify-between mb-16">
-                            <h2 className="text-3xl font-bold">{t('latest_insights')}</h2>
-                            <button className="text-blue-600 font-bold flex items-center gap-2 group">
-                                {t('read_more')} <ArrowRight className={`w-4 h-4 transition-transform ${locale === 'ar' ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
-                            </button>
-                        </div>
+                                {/* Main Heading */}
+                                <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                                    Empowering
+                                    <br />
+                                    <span className="text-yellow-400">digital experiences</span>
+                                    <br />
+                                    that drive results.
+                                </h1>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                            {insights.map((post, i) => (
-                                <motion.div
-                                    key={post.title}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    className="group cursor-pointer"
-                                >
-                                    <div className="aspect-[16/10] rounded-2xl overflow-hidden mb-6 relative">
-                                        <img 
-                                            src={post.image} 
-                                            alt={post.title} 
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                        />
-                                        <div className="absolute top-4 left-4">
-                                            <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider">
-                                                {post.category}
-                                            </span>
+                                {/* Description */}
+                                <p className="text-gray-400 text-xl mb-10 leading-relaxed max-w-xl">
+                                    The Daily is your all-in-one platform to build, manage, and grow exceptional digital products with ease and confidence.
+                                </p>
+
+                                {/* CTA Buttons */}
+                                <div className="flex flex-wrap gap-4 mb-16">
+                                    <Link
+                                        href={route('register')}
+                                        className="px-8 py-4 bg-yellow-500 hover:bg-yellow-600 text-black rounded-full font-bold text-lg transition-all transform hover:scale-105 shadow-lg shadow-yellow-500/25"
+                                    >
+                                        Get started
+                                    </Link>
+                                    <button className="px-8 py-4 border-2 border-white/20 hover:border-white/50 text-white rounded-full font-bold text-lg transition-all">
+                                        Explore solutions
+                                    </button>
+                                </div>
+
+                                {/* Features Grid */}
+                                <div className="grid grid-cols-3 gap-8">
+                                    {features.map((feature, i) => (
+                                        <motion.div
+                                            key={feature.title}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: i * 0.1 }}
+                                            className="flex flex-col items-start"
+                                        >
+                                            <div className="text-yellow-500 mb-4">
+                                                <feature.icon className="w-8 h-8" />
+                                            </div>
+                                            <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
+                                            <p className="text-gray-500 text-sm">{feature.desc}</p>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </motion.div>
+
+                            {/* Right Content - Portfolio Grid */}
+                            <motion.div
+                                initial={{ opacity: 0, x: locale === 'ar' ? -50 : 50 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.8 }}
+                                className="relative"
+                            >
+                                {/* Mockup Frame */}
+                                <div className="bg-gradient-to-b from-gray-800 to-black border border-yellow-500/30 rounded-3xl p-6 shadow-2xl">
+                                    {/* Browser Tabs */}
+                                    <div className="flex items-center gap-2 mb-6 pb-6 border-b border-gray-700">
+                                        <div className="flex gap-2">
+                                            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
                                         </div>
                                     </div>
-                                    <p className="text-blue-600 text-sm font-bold mb-3">{post.date}</p>
-                                    <h4 className="text-2xl font-bold mb-4 leading-tight group-hover:text-blue-600 transition-colors">
-                                        {post.title}
-                                    </h4>
-                                    <p className={`line-clamp-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-                                        {post.desc}
-                                    </p>
+
+                                    {/* Image Grid */}
+                                    <div className="grid grid-cols-3 gap-4 mb-8">
+                                        {portfolioImages.map((img, i) => (
+                                            <motion.div
+                                                key={i}
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                transition={{ delay: i * 0.05 }}
+                                                className="aspect-square rounded-xl overflow-hidden border border-yellow-500/20 hover:border-yellow-500/50 transition-all relative"
+                                            >
+                                                <img
+                                                    src={img.src}
+                                                    alt={`Portfolio ${i}`}
+                                                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent"></div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+
+                                    {/* Stats Row */}
+                                    <div className="flex items-center justify-between bg-gray-900/50 rounded-xl p-4 border border-gray-700">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
+                                                <TrendingUp className="w-5 h-5 text-white" />
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-gray-400">Growth</p>
+                                                <p className="font-bold text-white">+24% this month</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <MessageCircle className="w-5 h-5 text-gray-400" />
+                                            <div>
+                                                <p className="text-sm text-gray-400">Support</p>
+                                                <p className="font-bold text-white">We're here to help</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Uptime Badge */}
+                                    <div className="absolute top-12 right-8 bg-black border border-yellow-500/50 rounded-xl px-3 py-2 text-center">
+                                        <p className="text-yellow-400 font-bold text-lg">99%</p>
+                                        <p className="text-xs text-gray-400">Uptime</p>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Trusted By Section */}
+                <section className="py-16 px-6 bg-black border-t border-gray-800">
+                    <div className="max-w-7xl mx-auto text-center">
+                        <p className="text-gray-500 text-sm font-semibold uppercase tracking-widest mb-8">
+                            TRUSTED BY INNOVATIVE COMPANIES
+                        </p>
+                        <div className="flex flex-wrap items-center justify-center gap-12 grayscale opacity-60 hover:opacity-100 transition-opacity">
+                            {trustedBy.map((company, i) => (
+                                <motion.div
+                                    key={company.name}
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    transition={{ delay: i * 0.1 }}
+                                    className="text-2xl font-bold text-gray-400 hover:text-white transition-colors"
+                                >
+                                    {company.name}
                                 </motion.div>
                             ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* Newsletter Section */}
-                <section className="py-24 bg-gray-500/5">
-                    <div className="max-w-7xl mx-auto px-6 text-center">
-                        <div className="max-w-3xl mx-auto">
-                            <h2 className="text-3xl md:text-5xl font-bold mb-8">{t('newsletter_title')}</h2>
-                            <p className={`text-xl mb-10 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-                                {t('newsletter_desc')}
-                            </p>
-                            <form className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
-                                <input 
-                                    type="email" 
-                                    placeholder={t('newsletter_placeholder')}
-                                    className={`flex-1 px-6 py-4 rounded-full border border-gray-500/10 focus:ring-2 focus:ring-blue-600 outline-none ${theme === 'dark' ? 'bg-zinc-900' : 'bg-white'}`}
-                                />
-                                <button className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold transition-all shadow-lg shadow-blue-500/25">
-                                    {t('newsletter_button')}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </section>
-
-                {/* CTA Section */}
-                <section className="py-24 relative overflow-hidden">
-                    <div className="max-w-7xl mx-auto px-6 relative z-10">
-                        <div className={`p-12 md:p-20 rounded-[40px] relative overflow-hidden bg-[#1a1f36] text-white flex flex-col md:flex-row items-center justify-between gap-12`}>
-                            <div className="max-w-xl">
-                                <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">{t('cta_title')}</h2>
-                                <p className="text-xl text-blue-100/80 mb-10">
-                                    {t('cta_desc')}
-                                </p>
-                                <div className="flex flex-wrap items-center gap-4">
-                                    <Link href={route('register')} className="px-8 py-4 bg-[#635bff] text-white rounded-full font-bold text-lg hover:scale-105 transition-all">
-                                        {t('cta_trial')}
-                                    </Link>
-                                    <Link href="#" className="px-8 py-4 border-2 border-white/30 rounded-full font-bold text-lg hover:bg-white/10 transition-all">
-                                        {t('cta_plans')}
-                                    </Link>
-                                </div>
-                            </div>
-                            
-                            {/* Decorative background for CTA */}
-                            <div className="absolute top-0 right-0 w-full h-full pointer-events-none opacity-20">
-                                <div className="absolute top-[-50%] right-[-20%] w-[80%] h-[150%] bg-blue-500 rotate-[15deg] blur-[100px]" />
-                            </div>
                         </div>
                     </div>
                 </section>
             </main>
 
             {/* Footer */}
-            <footer className={`py-20 border-t ${theme === 'dark' ? 'border-white/5 bg-[#050608]' : 'border-gray-100 bg-gray-50'}`}>
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-12">
-                        <div className="col-span-2">
-                            <h2 className="text-2xl font-bold mb-8 lowercase tracking-tighter">the daily</h2>
-                            <div className="space-y-4">
-                                <p className="flex items-center gap-2 text-sm opacity-60">
-                                    <Globe className="w-4 h-4" /> Global Reach
-                                </p>
-                                <p className="flex items-center gap-2 text-sm opacity-60">
-                                    <Globe className="w-4 h-4" /> English (United States)
-                                </p>
-                            </div>
-                        </div>
-                        {[
-                            { title: 'Sections', links: ['Technology', 'Business', 'Lifestyle', 'Science'] },
-                            { title: 'About', links: ['Our Story', 'Careers', 'Press', 'Contact'] },
-                            { title: 'Legal', links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy'] },
-                        ].map((col) => (
-                            <div key={col.title}>
-                                <h4 className="font-bold mb-6">{col.title}</h4>
-                                <ul className="space-y-4 opacity-60 text-sm">
-                                    {col.links.map(link => (
-                                        <li key={link}><Link href="#" className="hover:opacity-100 transition-opacity">{link}</Link></li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="mt-20 pt-8 border-t border-gray-500/10 text-sm opacity-40">
-                        © 2026 The Daily. {t('footer_rights')}
-                    </div>
+            <footer className="py-16 px-6 bg-black border-t border-gray-800">
+                <div className="max-w-7xl mx-auto text-center text-gray-500 text-sm">
+                    © 2026 The Daily. All rights reserved.
                 </div>
             </footer>
         </div>
