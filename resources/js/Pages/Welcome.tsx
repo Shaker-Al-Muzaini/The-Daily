@@ -85,7 +85,6 @@ export default function Welcome({ auth }: { auth: any }) {
                                     <span className="text-yellow-400 text-sm font-semibold">All-in-one digital platform</span>
                                 </div>
 
-                                {/* Main Heading */}
                                 <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                                     Empowering
                                     <br />
@@ -150,25 +149,27 @@ export default function Welcome({ auth }: { auth: any }) {
                                         </div>
                                     </div>
 
-                                    {/* Image Grid */}
-                                    <div className="grid grid-cols-3 gap-4 mb-8">
-                                        {portfolioImages.map((img, i) => (
-                                            <motion.div
-                                                key={i}
-                                                initial={{ opacity: 0, scale: 0.9 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                transition={{ delay: i * 0.05 }}
-                                                className="aspect-square rounded-xl overflow-hidden border border-yellow-500/20 hover:border-yellow-500/50 transition-all relative"
-                                            >
-                                                <img
-                                                    src={img.src}
-                                                    alt={`Portfolio ${i}`}
-                                                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent"></div>
-                                            </motion.div>
-                                        ))}
-                                    </div>
+                                    {/* Image Grid - Masonry Style */}
+                                     <div className="grid grid-cols-2 gap-3 mb-8 auto-rows-max">
+                                         {portfolioImages.map((img, i) => (
+                                             <motion.div
+                                                 key={i}
+                                                 initial={{ opacity: 0, scale: 0.9 }}
+                                                 animate={{ opacity: 1, scale: 1 }}
+                                                 transition={{ delay: i * 0.05 }}
+                                                 className={`rounded-xl overflow-hidden border border-yellow-500/20 hover:border-yellow-500/50 transition-all relative ${
+                                                     i === 0 || i === 4 ? 'row-span-2' : ''
+                                                 } ${i === 2 ? 'col-span-2 row-span-1' : ''}`}
+                                             >
+                                                 <img
+                                                     src={img.src}
+                                                     alt={`Portfolio ${i}`}
+                                                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-300 min-h-[150px]"
+                                                 />
+                                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent"></div>
+                                             </motion.div>
+                                         ))}
+                                     </div>
 
                                     {/* Stats Row */}
                                     <div className="flex items-center justify-between bg-gray-900/50 rounded-xl p-4 border border-gray-700">
