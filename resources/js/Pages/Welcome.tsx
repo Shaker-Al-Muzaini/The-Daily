@@ -44,12 +44,12 @@ export default function Welcome({ auth }: { auth: any }) {
     ];
 
     const portfolioImages = [
-        { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=400&h=300', color: 'yellow' },
-        { src: 'https://images.unsplash.com/photo-1486406146926-c62733eee317?auto=format&fit=crop&q=80&w=400&h=300', color: 'blue' },
-        { src: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=400&h=300', color: 'gray' },
-        { src: 'https://images.unsplash.com/photo-1516534775068-bb57100d4f32?auto=format&fit=crop&q=80&w=400&h=300', color: 'gray' },
-        { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=400&h=300', color: 'gray' },
-        { src: 'https://images.unsplash.com/photo-1486406146926-c627033eee317?auto=format&fit=crop&q=80&w=400&h=300', color: 'gray' },
+        { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=500&h=300', alt: 'Team collaboration' },
+        { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=500&h=300', alt: 'Team meeting' },
+        { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=500&h=300', alt: 'Workspace' },
+        { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=500&h=300', alt: 'Design work' },
+        { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=500&h=300', alt: 'Development' },
+        { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=500&h=300', alt: 'Project showcase' },
     ];
 
     const trustedBy = [
@@ -70,22 +70,23 @@ export default function Welcome({ auth }: { auth: any }) {
 
             <main>
                 {/* Hero Section */}
-                <section className="pt-32 pb-20 px-6 bg-black">
-                    <div className="max-w-7xl mx-auto">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <section className="pt-20 pb-16 px-6 bg-black">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                             {/* Left Content */}
                             <motion.div
                                 initial={{ opacity: 0, x: locale === 'ar' ? 50 : -50 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.8 }}
+                                className="pt-4"
                             >
                                 {/* Badge */}
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-500/20 border border-yellow-500/50 mb-8">
-                                    <span className="text-yellow-500">⭐</span>
-                                    <span className="text-yellow-400 text-sm font-semibold">All-in-one digital platform</span>
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-500/20 border border-yellow-500/50 mb-6">
+                                    <span className="text-yellow-500 text-sm">⭐</span>
+                                    <span className="text-yellow-400 text-xs font-semibold">All-in-one digital platform</span>
                                 </div>
 
-                                <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                                <h1 className="text-4xl lg:text-5xl font-bold mb-5 leading-tight">
                                     Empowering
                                     <br />
                                     <span className="text-yellow-400">digital experiences</span>
@@ -94,25 +95,25 @@ export default function Welcome({ auth }: { auth: any }) {
                                 </h1>
 
                                 {/* Description */}
-                                <p className="text-gray-400 text-xl mb-10 leading-relaxed max-w-xl">
+                                <p className="text-gray-400 text-base mb-8 leading-relaxed max-w-lg">
                                     The Daily is your all-in-one platform to build, manage, and grow exceptional digital products with ease and confidence.
                                 </p>
 
                                 {/* CTA Buttons */}
-                                <div className="flex flex-wrap gap-4 mb-16">
+                                <div className="flex flex-wrap gap-3 mb-12">
                                     <Link
                                         href={route('register')}
-                                        className="px-8 py-4 bg-yellow-500 hover:bg-yellow-600 text-black rounded-full font-bold text-lg transition-all transform hover:scale-105 shadow-lg shadow-yellow-500/25"
+                                        className="px-6 py-2.5 bg-yellow-500 hover:bg-yellow-600 text-black rounded-full font-bold text-sm transition-all transform hover:scale-105 shadow-lg shadow-yellow-500/25"
                                     >
                                         Get started
                                     </Link>
-                                    <button className="px-8 py-4 border-2 border-white/20 hover:border-white/50 text-white rounded-full font-bold text-lg transition-all">
+                                    <button className="px-6 py-2.5 border-2 border-white/20 hover:border-white/50 text-white rounded-full font-bold text-sm transition-all">
                                         Explore solutions
                                     </button>
                                 </div>
 
                                 {/* Features Grid */}
-                                <div className="grid grid-cols-3 gap-8">
+                                <div className="grid grid-cols-3 gap-6">
                                     {features.map((feature, i) => (
                                         <motion.div
                                             key={feature.title}
@@ -121,11 +122,11 @@ export default function Welcome({ auth }: { auth: any }) {
                                             transition={{ delay: i * 0.1 }}
                                             className="flex flex-col items-start"
                                         >
-                                            <div className="text-yellow-500 mb-4">
-                                                <feature.icon className="w-8 h-8" />
+                                            <div className="text-yellow-500 mb-3">
+                                                <feature.icon className="w-6 h-6" />
                                             </div>
-                                            <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
-                                            <p className="text-gray-500 text-sm">{feature.desc}</p>
+                                            <h3 className="font-bold text-sm mb-1">{feature.title}</h3>
+                                            <p className="text-gray-500 text-xs">{feature.desc}</p>
                                         </motion.div>
                                     ))}
                                 </div>
@@ -139,62 +140,60 @@ export default function Welcome({ auth }: { auth: any }) {
                                 className="relative"
                             >
                                 {/* Mockup Frame */}
-                                <div className="bg-gradient-to-b from-gray-800 to-black border border-yellow-500/30 rounded-3xl p-6 shadow-2xl">
+                                <div className="bg-gradient-to-br from-slate-900/40 to-black/40 border border-yellow-500/30 rounded-3xl p-5 shadow-2xl shadow-yellow-500/10">
                                     {/* Browser Tabs */}
-                                    <div className="flex items-center gap-2 mb-6 pb-6 border-b border-gray-700">
+                                    <div className="flex items-center gap-2 mb-5 pb-5 border-b border-yellow-500/20">
                                         <div className="flex gap-2">
-                                            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                                            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                            <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                                            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                                            <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
                                         </div>
                                     </div>
 
-                                    {/* Image Grid - Masonry Style */}
-                                     <div className="grid grid-cols-2 gap-3 mb-8 auto-rows-max">
-                                         {portfolioImages.map((img, i) => (
-                                             <motion.div
-                                                 key={i}
-                                                 initial={{ opacity: 0, scale: 0.9 }}
-                                                 animate={{ opacity: 1, scale: 1 }}
-                                                 transition={{ delay: i * 0.05 }}
-                                                 className={`rounded-xl overflow-hidden border border-yellow-500/20 hover:border-yellow-500/50 transition-all relative ${
-                                                     i === 0 || i === 4 ? 'row-span-2' : ''
-                                                 } ${i === 2 ? 'col-span-2 row-span-1' : ''}`}
-                                             >
-                                                 <img
-                                                     src={img.src}
-                                                     alt={`Portfolio ${i}`}
-                                                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-300 min-h-[150px]"
-                                                 />
-                                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent"></div>
-                                             </motion.div>
-                                         ))}
-                                     </div>
+                                    {/* Image Grid - 3x2 Regular Grid */}
+                                    <div className="grid grid-cols-3 gap-3 mb-5">
+                                        {portfolioImages.map((img, i) => (
+                                            <motion.div
+                                                key={i}
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                transition={{ delay: i * 0.08 }}
+                                                className="rounded-lg overflow-hidden border border-yellow-500/20 hover:border-yellow-500/50 transition-all relative group h-[140px]"
+                                            >
+                                                <img
+                                                    src={img.src}
+                                                    alt={img.alt}
+                                                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
 
                                     {/* Stats Row */}
-                                    <div className="flex items-center justify-between bg-gray-900/50 rounded-xl p-4 border border-gray-700">
+                                    <div className="flex items-center justify-between bg-slate-800/40 rounded-xl p-4 border border-yellow-500/20">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
+                                            <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
                                                 <TrendingUp className="w-5 h-5 text-white" />
                                             </div>
                                             <div>
-                                                <p className="text-sm text-gray-400">Growth</p>
+                                                <p className="text-xs text-gray-400">Growth</p>
                                                 <p className="font-bold text-white">+24% this month</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <MessageCircle className="w-5 h-5 text-gray-400" />
+                                            <MessageCircle className="w-5 h-5 text-gray-400 flex-shrink-0" />
                                             <div>
-                                                <p className="text-sm text-gray-400">Support</p>
+                                                <p className="text-xs text-gray-400">Support</p>
                                                 <p className="font-bold text-white">We're here to help</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* Uptime Badge */}
-                                    <div className="absolute top-12 right-8 bg-black border border-yellow-500/50 rounded-xl px-3 py-2 text-center">
+                                    <div className="absolute top-16 -right-6 bg-black border-2 border-yellow-500 rounded-xl px-3 py-2 text-center shadow-lg shadow-yellow-500/20">
                                         <p className="text-yellow-400 font-bold text-lg">99%</p>
-                                        <p className="text-xs text-gray-400">Uptime</p>
+                                        <p className="text-xs text-yellow-500/70">Uptime</p>
                                     </div>
                                 </div>
                             </motion.div>
