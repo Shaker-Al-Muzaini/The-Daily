@@ -17,16 +17,21 @@ import {
     Moon,
     Sun,
     FileStack,
+    ShoppingBag,
+    Package,
 } from 'lucide-react';
 import { Link, usePage, router } from '@inertiajs/react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { theme, toggleTheme, locale, setLocale } = useAppStore();
     const { t } = useTranslation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const { auth } = usePage().props as any;
+    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const { auth, pending_requests_count, latest_pending_requests } = usePage().props as any;
     const isDark = theme === 'dark';
+    const isRtl = locale === 'ar';
 
     const handleLocaleChange = () => {
         const newLocale = locale === 'en' ? 'ar' : 'en';
@@ -48,9 +53,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     const menuItems = [
         { label: t('dash_dashboard'), icon: LayoutDashboard, href: route('dashboard'), active: currentRoute === 'dashboard' },
-        { label: t('dash_posts'), icon: FileText, href: route('admin.posts.index'), active: currentRoute?.startsWith?.('admin.posts') },
+        { label: t('dash_posts'), icon: Package, href: route('admin.posts.index'), active: currentRoute?.startsWith?.('admin.posts') },
         { label: t('dash_categories'), icon: FolderOpen, href: route('admin.categories.index'), active: currentRoute?.startsWith?.('admin.categories') },
         { label: t('dash_pages'), icon: FileStack, href: route('admin.pages.index'), active: currentRoute?.startsWith?.('admin.pages') },
+        { label: t('dash_requests'), icon: ShoppingBag, href: route('admin.requests.index'), active: currentRoute?.startsWith?.('admin.requests'), badge: pending_requests_count },
         { label: t('dash_settings'), icon: Settings, href: '#', active: false },
     ];
 
@@ -84,6 +90,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         >
                             <item.icon className="w-[18px] h-[18px] shrink-0" />
                             {isSidebarOpen && <span>{item.label}</span>}
+                            {item.badge > 0 && (
+                                <span className={`ms-auto flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold ${item.active ? 'bg-black text-[#C5A059]' : 'bg-[#C5A059] text-black'}`}>
+                                    {item.badge}
+                                </span>
+                            )}
                         </Link>
                     ))}
                 </nav>
@@ -122,10 +133,84 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             <button onClick={toggleTheme} className={`p-2 rounded-xl transition-colors ${isDark ? 'hover:bg-white/5 text-gray-500' : 'hover:bg-gray-100 text-gray-400'}`}>
                                 {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
                             </button>
-                            <button className={`p-2 rounded-xl relative transition-colors ${isDark ? 'hover:bg-white/5 text-gray-500' : 'hover:bg-gray-100 text-gray-400'}`}>
-                                <Bell className="w-4 h-4" />
-                                <span className={`absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 ${isDark ? 'border-[#0A0C10]' : 'border-white'}`} />
-                            </button>
+                            <div className="relative">
+                                <button 
+                                    onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                                    className={`p-2 rounded-xl relative transition-colors ${isDark ? 'hover:bg-white/5 text-gray-500' : 'hover:bg-gray-100 text-gray-400'}`}
+                                >
+                                    <Bell className="w-4 h-4" />
+                                    {pending_requests_count > 0 && (
+                                        <span className={`absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 ${isDark ? 'border-[#0A0C10]' : 'border-white'}`} />
+                                    )}
+                                </button>
+
+                                <AnimatePresence>
+                                    {isNotificationsOpen && (
+                                        <>
+                                            <div className="fixed inset-0 z-40" onClick={() => setIsNotificationsOpen(false)}></div>
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                className={`absolute ${locale === 'ar' ? 'left-0' : 'right-0'} mt-2 w-80 rounded-3xl shadow-2xl z-50 border overflow-hidden ${isDark ? 'bg-[#12141a] border-white/10' : 'bg-white border-gray-100'}`}
+                                            >
+                                                <div className={`px-5 py-4 border-b flex items-center justify-between ${isDark ? 'border-white/5 bg-white/5' : 'border-gray-100 bg-gray-50'}`}>
+                                                    <h3 className={`font-bold text-sm ${isDark ? 'text-white' : 'text-[#1a1f36]'}`}>
+                                                        {t('dash_notifications')}
+                                                    </h3>
+                                                    {pending_requests_count > 0 && (
+                                                        <span className="text-[10px] font-bold bg-[#C5A059] text-black px-2 py-0.5 rounded-full">
+                                                            {pending_requests_count} {t('dash_new')}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <div className="max-h-[360px] overflow-y-auto">
+                                                    {latest_pending_requests.length === 0 ? (
+                                                        <div className="p-10 text-center">
+                                                            <Bell className={`w-8 h-8 mx-auto mb-3 ${isDark ? 'text-gray-800' : 'text-gray-200'}`} />
+                                                            <p className={`text-xs font-medium ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>
+                                                                {t('dash_no_notifications')}
+                                                            </p>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="divide-y divide-gray-100 dark:divide-white/5">
+                                                            {latest_pending_requests.map((req: any) => (
+                                                                <button
+                                                                    key={req.id}
+                                                                    onClick={() => {
+                                                                        setIsNotificationsOpen(false);
+                                                                        router.get(route('admin.requests.index'));
+                                                                    }}
+                                                                    className={`w-full text-start p-4 transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50'}`}
+                                                                >
+                                                                    <div className="flex gap-3">
+                                                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold text-[10px] ${isDark ? 'bg-white/5 text-[#C5A059]' : 'bg-gray-100 text-[#C5A059]'}`}>
+                                                                            {req.user_name.charAt(0)}
+                                                                        </div>
+                                                                        <div className="min-w-0">
+                                                                            <p className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-600'} leading-snug`}>
+                                                                                <span className="font-bold text-[#C5A059]">{req.user_name}</span> {isRtl ? 'طلب' : 'requested'} <span className="font-bold text-white">{isRtl ? req.post_title.ar : req.post_title.en}</span>
+                                                                            </p>
+                                                                            <p className={`text-[10px] mt-1 ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>{req.created_at}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <Link
+                                                    href={route('admin.requests.index')}
+                                                    onClick={() => setIsNotificationsOpen(false)}
+                                                    className={`block w-full text-center py-3 text-xs font-bold transition-colors ${isDark ? 'bg-white/5 text-gray-400 hover:text-[#C5A059] hover:bg-white/10' : 'bg-gray-50 text-gray-500 hover:text-[#C5A059] hover:bg-gray-100'}`}
+                                                >
+                                                    {t('dash_view_all')}
+                                                </Link>
+                                            </motion.div>
+                                        </>
+                                    )}
+                                </AnimatePresence>
+                            </div>
 
                             <div className={`h-6 w-px mx-1 ${isDark ? 'bg-white/10' : 'bg-gray-100'}`} />
 

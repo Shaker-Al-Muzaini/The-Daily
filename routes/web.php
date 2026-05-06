@@ -46,6 +46,7 @@ Route::get('/dashboard', function () {
                 'category'     => $p->category ? ['name' => $p->category->name] : null,
                 'created_at'   => $p->created_at->format('Y-m-d'),
             ]),
+        'pending_requests' => \App\Models\ProductRequest::where('status', 'pending')->count(),
     ];
     return Inertia::render('Dashboard', ['stats' => $stats]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -77,6 +78,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'store'])->name('categories.store');
     Route::put('/categories/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('categories.destroy');
+
+    // Product Requests
+    Route::get('/requests', [App\Http\Controllers\ProductRequestController::class, 'adminIndex'])->name('requests.index');
+    Route::patch('/requests/{id}/status', [App\Http\Controllers\ProductRequestController::class, 'updateStatus'])->name('requests.update_status');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/product/{id}/request', [App\Http\Controllers\ProductRequestController::class, 'store'])->name('product.request');
 });
 
 require __DIR__.'/auth.php';

@@ -107,7 +107,7 @@ export default function PostsIndex({ posts }: { posts: Post[] }) {
                                 {/* Image */}
                                 <div className={`h-40 overflow-hidden ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
                                     {post.featured_image ? (
-                                        <img src={`/storage/${post.featured_image}`} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                        <img src={post.featured_image.startsWith('http') ? post.featured_image : `/storage/${post.featured_image}`} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center">
                                             <FileText className={`w-10 h-10 ${isDark ? 'text-gray-700' : 'text-gray-200'}`} />

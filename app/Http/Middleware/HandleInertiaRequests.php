@@ -40,6 +40,24 @@ class HandleInertiaRequests extends Middleware
                 $file = base_path('lang/'.app()->getLocale().'.json');
                 return file_exists($file) ? json_decode(file_get_contents($file), true) : [];
             }),
+            'pending_requests_count' => cache()->remember('pending_requests_count', 60, function() {
+                return \App\Models\ProductRequest::where('status', 'pending')->count();
+            }),
+            'latest_pending_requests' => \App\Models\ProductRequest::with('post:id,title')
+                ->where('status', 'pending')
+                ->latest()
+                ->take(5)
+                ->get()
+                ->map(fn($r) => [
+                    'id' => $r->id,
+                    'user_name' => $r->user->name,
+                    'post_title' => $r->post->title,
+                    'created_at' => $r->created_at->diffForHumans(),
+                ]),
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
+            ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

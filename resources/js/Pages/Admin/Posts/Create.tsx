@@ -28,22 +28,7 @@ export default function PostCreate({ categories }: { categories: Category[] }) {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('title[en]', data.title.en);
-        formData.append('title[ar]', data.title.ar);
-        formData.append('content[en]', data.content.en);
-        formData.append('content[ar]', data.content.ar);
-        formData.append('excerpt[en]', data.excerpt.en);
-        formData.append('excerpt[ar]', data.excerpt.ar);
-        formData.append('category_id', data.category_id);
-        formData.append('is_published', data.is_published ? '1' : '0');
-        if (data.featured_image) {
-            formData.append('featured_image', data.featured_image);
-        }
-        post(route('admin.posts.store'), {
-            data: formData as any,
-            forceFormData: true,
-        });
+        post(route('admin.posts.store'));
     };
 
     const inputClass = `w-full rounded-xl py-3 px-4 text-sm border transition-all focus:ring-2 focus:ring-[#C5A059]/50 focus:border-[#C5A059] ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-600' : 'bg-white border-gray-200 text-gray-900 placeholder:text-gray-400'}`;
