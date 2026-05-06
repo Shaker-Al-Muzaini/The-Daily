@@ -58,4 +58,11 @@
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
+
+  .neural-grid {
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
 }

@@ -47,6 +47,20 @@ Route::get('/dashboard', function () {
                 'created_at'   => $p->created_at->format('Y-m-d'),
             ]),
         'pending_requests' => \App\Models\ProductRequest::where('status', 'pending')->count(),
+        // New: Breakdown for charts
+        'categories_breakdown' => \App\Models\Category::withCount('posts')->get()->map(fn($c) => [
+            'name' => $c->name,
+            'count' => $c->posts_count,
+        ]),
+        'monthly_posts' => \App\Models\Post::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->map(fn($m) => [
+                'month' => date('F', mktime(0, 0, 0, $m->month, 1)),
+                'count' => $m->count,
+            ]),
     ];
     return Inertia::render('Dashboard', ['stats' => $stats]);
 })->middleware(['auth', 'verified'])->name('dashboard');

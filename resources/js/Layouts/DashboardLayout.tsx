@@ -61,7 +61,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     ];
 
     return (
-        <div className={`min-h-screen transition-colors duration-300 ${isDark ? 'bg-[#0A0C10] text-white' : 'bg-gray-50 text-gray-900'}`}>
+        <div className={`min-h-screen transition-colors duration-300 ${isDark ? 'bg-[#05070a] text-white' : 'bg-gray-50 text-gray-900'}`}>
             {/* Sidebar */}
             <aside className={`fixed top-0 bottom-0 z-40 transition-all duration-300 border-e ${isDark ? 'bg-[#0D0F14] border-white/5' : 'bg-white border-gray-100'} ${isSidebarOpen ? 'w-[260px]' : 'w-[72px]'} ${locale === 'ar' ? 'right-0' : 'left-0'}`}>
                 <div className="h-[72px] flex items-center justify-between px-5">
@@ -111,7 +111,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </aside>
 
             {/* Main Content */}
-            <main className={`transition-all duration-300 min-h-screen ${isSidebarOpen ? (locale === 'ar' ? 'mr-[260px]' : 'ml-[260px]') : (locale === 'ar' ? 'mr-[72px]' : 'ml-[72px]')}`}>
+            <main className={`transition-all duration-300 min-h-screen relative ${isSidebarOpen ? (locale === 'ar' ? 'mr-[260px]' : 'ml-[260px]') : (locale === 'ar' ? 'mr-[72px]' : 'ml-[72px]')}`}>
+                {isDark && <div className="absolute inset-0 neural-grid opacity-30 pointer-events-none" />}
                 {/* Header */}
                 <header className={`h-[72px] border-b sticky top-0 z-30 backdrop-blur-xl transition-colors ${isDark ? 'bg-[#0A0C10]/80 border-white/5' : 'bg-white/80 border-gray-100'}`}>
                     <div className="h-full px-6 flex items-center justify-between">

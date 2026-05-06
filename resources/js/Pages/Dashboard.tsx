@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Package, FolderOpen, Eye, TrendingUp, ArrowUpRight, Plus, Calendar, ShoppingBag, Clock, Users } from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
 import { useAppStore } from '@/Stores/useAppStore';
+import NeuralAnalytics from '@/Components/NeuralAnalytics';
 
 interface DashboardProps {
     stats: {
@@ -73,21 +74,21 @@ export default function Dashboard({ stats }: DashboardProps) {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`relative overflow-hidden p-10 md:p-12 rounded-[40px] border shadow-2xl group ${isDark ? 'bg-[#0D0F14] border-white/5' : 'bg-white border-gray-100'}`}
+                    className={`relative overflow-hidden p-6 md:p-8 rounded-[24px] border shadow-xl group ${isDark ? 'bg-[#0D0F14] border-white/5' : 'bg-white border-gray-100'}`}
                 >
                     <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                         <div className="max-w-2xl">
-                            <h2 className={`text-4xl md:text-5xl font-black tracking-tighter mb-4 ${isDark ? 'text-white' : 'text-[#1a1f36]'}`}>
+                            <h2 className={`text-3xl font-black tracking-tighter mb-2 ${isDark ? 'text-white' : 'text-[#1a1f36]'}`}>
                                 {isRtl ? 'مرحباً بك مجدداً!' : 'Welcome back!'}
                             </h2>
-                            <p className={`text-lg leading-relaxed font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                            <p className={`text-sm leading-relaxed font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
                                 {t('dash_welcome_desc')}
                             </p>
                         </div>
                         <div className="flex items-center gap-4">
                             <Link
                                 href={route('admin.posts.create')}
-                                className="flex items-center gap-2 bg-[#C5A059] text-black px-8 py-4 rounded-2xl font-black hover:bg-[#B48F48] transition-all shadow-xl shadow-[#C5A059]/20 hover:scale-105 active:scale-95 text-base"
+                                className="flex items-center gap-2 bg-[#C5A059] text-black px-6 py-3 rounded-xl font-black hover:bg-[#B48F48] transition-all shadow-lg shadow-[#C5A059]/20 hover:scale-105 active:scale-95 text-sm"
                             >
                                 <Plus className="w-5 h-5" />
                                 {t('dash_create_post')}
@@ -101,32 +102,10 @@ export default function Dashboard({ stats }: DashboardProps) {
                     </div>
                 </motion.div>
 
-                {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {statCards.map((stat, i) => (
-                        <motion.div
-                            key={stat.label}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.1 }}
-                            className={`p-8 rounded-[32px] border transition-all hover:scale-[1.02] relative overflow-hidden group ${isDark ? 'bg-[#12141a] border-white/5 hover:border-[#C5A059]/30' : 'bg-white border-gray-100 shadow-sm'}`}
-                        >
-                            <Link href={stat.href || '#'} className="block relative z-10">
-                                <div className="flex items-center justify-between mb-6">
-                                    <div className={`p-4 rounded-2xl ${stat.bg} group-hover:scale-110 transition-transform`}>
-                                        <stat.icon className={`w-6 h-6 ${stat.color}`} />
-                                    </div>
-                                    <span className={`text-xs font-bold ${stat.value > 0 ? 'text-orange-500 bg-orange-500/10' : 'text-green-500 bg-green-500/10'} px-3 py-1.5 rounded-xl flex items-center gap-1`}>
-                                        {stat.change} <ArrowUpRight className="w-3.5 h-3.5" />
-                                    </span>
-                                </div>
-                                <p className={`text-sm font-bold mb-1 uppercase tracking-wider ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{stat.label}</p>
-                                <h3 className={`text-4xl font-black ${isDark ? 'text-white' : 'text-[#1a1f36]'}`}>{stat.value}</h3>
-                            </Link>
-                            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-[#C5A059]/5 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </motion.div>
-                    ))}
-                </div>
+                {/* Advanced Neural Analytics Section */}
+
+                {/* Advanced Neural Analytics Section */}
+                <NeuralAnalytics stats={stats} />
 
                 {/* Main Content Area */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
