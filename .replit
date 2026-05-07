@@ -1,5 +1,14 @@
-run = "composer install && npm install && npm run build && php artisan serve --host=0.0.0.0 --port=8000"
-entrypoint = "public/index.php"
+run = "npm run dev & php artisan serve"
+entrypoint = "main.sh"
 
-[ports]
-8000 = { externalPort = 80 }
+[nix]
+channel = "stable-23.11"
+packages = ["nodejs", "php", "composer"]
+
+[[ports]]
+socket = 3000
+declare = "React"
+
+[[ports]]  
+socket = 8000
+declare = "Laravel"
