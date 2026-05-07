@@ -92,7 +92,7 @@ export default function Create() {
                                         placeholder={activeTab === 'en' ? 'Enter title...' : 'أدخل العنوان...'}
                                         dir={activeTab === 'ar' ? 'rtl' : 'ltr'}
                                     />
-                                    {errors[`title.${activeTab}` as any] && <p className="text-red-500 text-xs mt-1">{errors[`title.${activeTab}` as any]}</p>}
+                                    {(errors as Record<string, string>)[`title.${activeTab}`] && <p className="text-red-500 text-xs mt-1">{(errors as Record<string, string>)[`title.${activeTab}`]}</p>}
                                 </div>
 
                                 <div>
@@ -105,7 +105,7 @@ export default function Create() {
                                         placeholder={activeTab === 'en' ? 'Enter page content...' : 'أدخل محتوى الصفحة...'}
                                         dir={activeTab === 'ar' ? 'rtl' : 'ltr'}
                                     />
-                                    {errors[`content.${activeTab}` as any] && <p className="text-red-500 text-xs mt-1">{errors[`content.${activeTab}` as any]}</p>}
+                                    {(errors as Record<string, string>)[`content.${activeTab}`] && <p className="text-red-500 text-xs mt-1">{(errors as Record<string, string>)[`content.${activeTab}`]}</p>}
                                 </div>
                             </div>
                         </div>

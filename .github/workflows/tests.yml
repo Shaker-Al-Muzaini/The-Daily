@@ -40,11 +40,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
+      - name: Cache NPM dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
 
       - name: Install NPM dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps --no-audit
 
       - name: Build Assets (Vite/Vue)
         run: npm run build
