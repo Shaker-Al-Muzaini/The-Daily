@@ -6,6 +6,7 @@ import { useTranslation } from '@/Hooks/useTranslation';
 import { useAppStore } from '@/Stores/useAppStore';
 import { useState, FormEvent } from 'react';
 
+
 export default function Create() {
     const { t } = useTranslation();
     const { locale, theme } = useAppStore();
