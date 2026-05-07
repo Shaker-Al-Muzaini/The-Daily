@@ -7,13 +7,9 @@ on:
     branches: [main, master, develop]
 
 jobs:
-  lint:
+  php-lint:
     name: PHP Lint & Code Style Check
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        php-version: ["8.3"]
 
     steps:
       - name: Checkout code
@@ -22,13 +18,12 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: '8.3'
           extensions: mbstring, bcmath, intl, json
-          ini-values: post_max_size=256M, upload_max_filesize=256M
           tools: composer:v2
 
       - name: Cache Composer dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -46,10 +41,22 @@ jobs:
         run: ./vendor/bin/pint --test
         continue-on-error: true
 
-      - name: Run PHP_CodeSniffer
-        run: ./vendor/bin/phpcs app --standard=PSR12
-        continue-on-error: true
+  ts-lint:
+    name: TypeScript Type Check
+    runs-on: ubuntu-latest
 
-      - name: Check Laravel Query Optimization
-        run: |
-          echo "✅ Linting complete!"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps --no-audit
+
+      - name: Run TypeScript type check
+        run: npx tsc --noEmit

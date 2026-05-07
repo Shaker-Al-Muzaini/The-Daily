@@ -8,12 +8,8 @@ on:
 
 jobs:
   tests:
-    name: PHP ${{ matrix.php-version }} Tests
+    name: Build & Test
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        php-version: ["8.3"]
 
     steps:
       - name: Checkout code
@@ -22,31 +18,24 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
-          extensions: mbstring, bcmath, intl, json, mysql, sqlite3
-          ini-values: post_max_size=256M, upload_max_filesize=256M
+          php-version: '8.3'
+          extensions: mbstring, bcmath, intl, json, sqlite3
+          coverage: pcov
           tools: composer:v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20" # أو الإصدار الذي تستخدمه محلياً
+          node-version: "20"
+          cache: "npm"
 
       - name: Cache Composer dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
 
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
@@ -54,7 +43,7 @@ jobs:
       - name: Install NPM dependencies
         run: npm install --legacy-peer-deps --no-audit
 
-      - name: Build Assets (Vite/Vue)
+      - name: Build Assets (Vite/React)
         run: npm run build
 
       - name: Setup environment
@@ -68,24 +57,11 @@ jobs:
           DB_DATABASE: ":memory:"
         run: php artisan migrate --force
 
-      - name: Run Unit Tests
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: ":memory:"
-        run: php artisan test --testsuite=Unit
-
-      - name: Run Feature Tests
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: ":memory:"
-        run: php artisan test --testsuite=Feature
-
-      - name: Generate Coverage Report
+      - name: Run Tests (Pest/PHPUnit)
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
         run: php artisan test --coverage-clover=coverage.xml
-        continue-on-error: true
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

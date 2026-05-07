@@ -1,5 +1,4 @@
 run = "npm run dev & php artisan serve"
-entrypoint = "main.sh"
 
 [nix]
 channel = "stable-23.11"
@@ -7,8 +6,10 @@ packages = ["nodejs", "php", "composer"]
 
 [[ports]]
 socket = 3000
+internalPort = 3000
 declare = "React"
 
-[[ports]]  
+[[ports]]
 socket = 8000
+internalPort = 8000
 declare = "Laravel"
