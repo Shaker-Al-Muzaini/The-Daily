@@ -1,11 +1,10 @@
 import DashboardLayout from '@/Layouts/DashboardLayout';
 import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { Package, FolderOpen, Eye, TrendingUp, ArrowUpRight, Plus, Calendar, ShoppingBag, Clock, Users } from 'lucide-react';
+import { Package, FolderOpen, Eye, TrendingUp, ArrowUpRight, Plus, Calendar, ShoppingBag, Clock, Users, FileText } from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
 import { useAppStore } from '@/Stores/useAppStore';
 import NeuralAnalytics from '@/Components/NeuralAnalytics';
-
 interface DashboardProps {
     stats: {
         total_posts: number;
@@ -20,6 +19,8 @@ interface DashboardProps {
             created_at: string;
         }>;
         pending_requests: number;
+        categories_breakdown?: Array<{ name: { en: string; ar: string }; count: number }>;
+        monthly_posts?: Array<{ month: string; count: number }>;
     };
 }
 
@@ -105,8 +106,13 @@ export default function Dashboard({ stats }: DashboardProps) {
                 {/* Advanced Neural Analytics Section */}
 
                 {/* Advanced Neural Analytics Section */}
-                <NeuralAnalytics stats={stats} />
-
+<NeuralAnalytics 
+  stats={{
+    ...stats,
+    categories_breakdown: stats.categories_breakdown || [],
+    monthly_posts: stats.monthly_posts || []
+  }} 
+/>
                 {/* Main Content Area */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Recent Posts List */}

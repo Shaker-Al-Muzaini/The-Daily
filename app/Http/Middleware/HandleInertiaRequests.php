@@ -36,9 +36,13 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'locale' => app()->getLocale(),
-            'translations' => cache()->rememberForever('translations_'.app()->getLocale(), function() {
-                $file = base_path('lang/'.app()->getLocale().'.json');
-                return file_exists($file) ? json_decode(file_get_contents($file), true) : [];
+            'translations' => cache()->rememberForever('translations_all', function() {
+                $en = file_exists(base_path('lang/en.json')) ? json_decode(file_get_contents(base_path('lang/en.json')), true) : [];
+                $ar = file_exists(base_path('lang/ar.json')) ? json_decode(file_get_contents(base_path('lang/ar.json')), true) : [];
+                return [
+                    'en' => $en,
+                    'ar' => $ar,
+                ];
             }),
             'pending_requests_count' => cache()->remember('pending_requests_count', 60, function() {
                 return \App\Models\ProductRequest::where('status', 'pending')->count();
