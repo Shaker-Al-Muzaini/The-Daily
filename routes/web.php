@@ -62,12 +62,14 @@ Route::get('/dashboard', function () {
         ]);
 
     // عدد الـ Posts شهرياً - يعمل على SQLite و MySQL
-    if (DB::getDriverName() === 'sqlite') {
+    $driverName = DB::connection()->getDriverName();
+    
+    if ($driverName === 'sqlite') {
         // SQLite - استخدم strftime
         $monthly_posts = \App\Models\Post::selectRaw("strftime('%m', created_at) as month, COUNT(*) as count")
             ->whereRaw("strftime('%Y', created_at) = ?", [date('Y')])
-            ->groupByRaw("strftime('%m', created_at)")
-            ->orderByRaw("strftime('%m', created_at)")
+            ->groupBy('month')
+            ->orderBy('month')
             ->get()
             ->map(fn($m) => [
                 'month' => date('F', mktime(0, 0, 0, (int)$m->month, 1)),
