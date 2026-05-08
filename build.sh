@@ -13,6 +13,10 @@ npm run build
 echo "Generating app key..."
 php artisan key:generate --force
 
+echo "Creating SQLite database file..."
+mkdir -p database
+touch database/database.sqlite
+
 echo "Clearing config cache..."
 php artisan config:clear
 php artisan cache:clear

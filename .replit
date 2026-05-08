@@ -50,5 +50,4 @@ build = ["bash", "build.sh"]
 [userenv]
 
 [userenv.shared]
-DB_CONNECTION = "mysql"
-DB_PORT = "3306"
+DB_CONNECTION = "sqlite"
