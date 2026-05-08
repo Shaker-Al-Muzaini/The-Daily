@@ -1,7 +1,8 @@
 run = "npm run dev & php artisan serve"
+modules = ["nodejs-20", "php-8.2", "bash", "web"]
 
 [nix]
-channel = "stable-23.11"
+channel = "stable-25_05"
 packages = ["nodejs", "php", "composer"]
 
 [[ports]]
@@ -13,3 +14,27 @@ declare = "React"
 socket = 8000
 internalPort = 8000
 declare = "Laravel"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "php artisan serve --host=0.0.0.0 --port=8000"
+waitForPort = 8000
+
+[workflows.workflow.metadata]
+outputType = "console"
