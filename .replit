@@ -51,3 +51,4 @@ build = ["bash", "build.sh"]
 
 [userenv.shared]
 DB_CONNECTION = "sqlite"
+APP_URL = "https://the-daily--sshakiralmazini.replit.app/"
